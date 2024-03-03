@@ -1,6 +1,7 @@
 #Imports
 import array
 import random
+import requests
 from pprint import pprint
 #Global Variables
 Worldname = "Faerun"
@@ -130,8 +131,25 @@ def rollstats():
     print("The Stat numbers rolled are:")
     for stat in randomstat:
         print(stat, end=' ')
+
+
+def api():
+    reqinput = input("What type of knowledge do you seek adventurer: ")
+    response = requests.get("https://www.dnd5eapi.co/api/spells/" + reqinput)
+    charquery = response.json()
+    print(charquery)
+    #prints the status code 
+    print(response.status_code)
+    if response.status_code == 404:
+        reqinput = input("Sorry hero, that spell doesn't exist... try again: ")
+        response = requests.get("https://www.dnd5eapi.co/api/spells/" + reqinput)
+        charquery = response.json()
+        print(charquery)
+
+
 #Run
-rollstats()
+api()
+#rollstats()
 #racesetup()
-character_creation()
+#character_creation()
 #charactersheetprint()
