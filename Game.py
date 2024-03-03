@@ -134,6 +134,8 @@ def rollstats():
 
 
 def api():
+  
+
     reqinput = input("What type of knowledge do you seek adventurer: ")
     response = requests.get("https://www.dnd5eapi.co/api/spells/" + reqinput)
     charquery = response.json()
@@ -146,9 +148,26 @@ def api():
         charquery = response.json()
         print(charquery)
 
-
+def api2():
+    initialresponse = requests.get("https://www.dnd5eapi.co/api/")
+    print(initialresponse.json())
+    
+    reqinput = input("What type of knowledge do you seek adventurer: ")
+    reqinput = reqinput + "/"
+    response = requests.get("https://www.dnd5eapi.co/api/" + reqinput)
+    reqinput2 = input("What exact knowledge of " + reqinput + " do you seek adventurer: ")
+    response = requests.get("https://www.dnd5eapi.co/api/" + reqinput + reqinput2)
+    charquery = response.json()
+    print(charquery)
+    #prints the status code 
+    print(response.status_code)
+    if response.status_code == 404:
+        reqinput = input("Sorry hero, that "+ reqinput +" doesn't exist... try again: ")
+        response = requests.get("https://www.dnd5eapi.co/api/" + reqinput + reqinput2)
+        charquery = response.json()
+        print(charquery)
 #Run
-api()
+api2()
 #rollstats()
 #racesetup()
 #character_creation()
